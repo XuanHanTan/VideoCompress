@@ -25,8 +25,10 @@ class CompressMixin {
   Future<void> _progressCallback(MethodCall call) async {
     switch (call.method) {
       case 'updateProgress':
-        final progress = double.tryParse(call.arguments.toString());
+        final progress = double.tryParse(call.arguments["progress"].toString());
         if (progress != null) compressProgress$.next(progress);
+        final isCompressing2 = call.arguments["isCompressing"].toString();
+        if (isCompressing2.toLowerCase() == "false") _isCompressing = false;
         break;
     }
   }

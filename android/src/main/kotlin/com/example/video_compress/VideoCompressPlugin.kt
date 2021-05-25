@@ -23,6 +23,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Future
+import kotlin.collections.HashMap
 
 /**
  * VideoCompressPlugin
@@ -141,10 +142,16 @@ class VideoCompressPlugin : MethodCallHandler, FlutterPlugin {
                         .setVideoTrackStrategy(videoTrackStrategy)
                         .setListener(object : TranscoderListener {
                             override fun onTranscodeProgress(progress: Double) {
-                                channel.invokeMethod("updateProgress", progress * 100.00)
+                                val arguments = HashMap<String, Any>()
+                                arguments["progress"] = progress * 100.00;
+                                arguments["isCompressing"] = true
+                                channel.invokeMethod("updateProgress", arguments)
                             }
                             override fun onTranscodeCompleted(successCode: Int) {
-                                channel.invokeMethod("updateProgress", 100.00)
+                                val arguments = HashMap<String, Any>()
+                                arguments["progress"] = 100;
+                                arguments["isCompressing"] = false
+                                channel.invokeMethod("updateProgress", arguments)
                                 val json = Utility(channelName).getMediaInfoJson(context, destPath)
                                 json.put("isCancel", false)
                                 result.success(json.toString())
