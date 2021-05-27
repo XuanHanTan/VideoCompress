@@ -162,7 +162,7 @@ class VideoCompressPlugin : MethodCallHandler, FlutterPlugin {
 
                             override fun onTranscodeCanceled() {
                                 val arguments = HashMap<String, Any>()
-                                arguments["progress"] = 100;
+                                arguments["progress"] = 0;
                                 arguments["isCompressing"] = false
                                 channel.invokeMethod("updateProgress", arguments)
                                 result.success(null)
