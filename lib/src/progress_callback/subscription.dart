@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:ui';
 
 class ObservableBuilder<T> {
-  StreamController<T> _observable = StreamController();
+  StreamController<T> _observable = StreamController.broadcast();
   bool notSubscribed = true;
 
   void next(T value) {
@@ -19,7 +19,7 @@ class ObservableBuilder<T> {
       _observable.close();
 
       // Create a new instance to avoid errors
-      _observable = StreamController();
+      _observable = StreamController.broadcast();
     });
   }
 }
