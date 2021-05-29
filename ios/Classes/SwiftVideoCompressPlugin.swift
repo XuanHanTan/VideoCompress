@@ -238,6 +238,7 @@ public class SwiftVideoCompressPlugin: NSObject, FlutterPlugin {
                 }
             }
             var json = self.getMediaInfoJson(compressionUrl.absoluteString)
+            channel.invokeMethod("updateProgress", arguments: ["progress": "\(String(100))", "isCompressing": false])
             json["isCancel"] = false
             let jsonString = Utility.keyValueToJson(json)
             result(jsonString)
